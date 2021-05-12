@@ -1,25 +1,16 @@
 class ShopsController < ApplicationController
-  before_action :set_shop, only: %i[ show edit update destroy ]
+  before_action :set_shop, except: %i[ index new create ]
 
-  # GET /shops or /shops.json
   def index
     @shops = Shop.all
   end
 
-  # GET /shops/1 or /shops/1.json
-  def show
-  end
-
-  # GET /shops/new
   def new
     @shop = Shop.new
   end
 
-  # GET /shops/1/edit
-  def edit
-  end
+  def edit; end
 
-  # POST /shops or /shops.json
   def create
     @shop = Shop.new(shop_params)
 
@@ -34,7 +25,6 @@ class ShopsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /shops/1 or /shops/1.json
   def update
     respond_to do |format|
       if @shop.update(shop_params)
@@ -47,7 +37,6 @@ class ShopsController < ApplicationController
     end
   end
 
-  # DELETE /shops/1 or /shops/1.json
   def destroy
     @shop.destroy
     respond_to do |format|
@@ -57,13 +46,20 @@ class ShopsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_shop
-      @shop = Shop.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def shop_params
-      params.fetch(:shop, {})
-    end
+  def add_book_in_stock(book_id)
+    @shop.books.find_or_create_by(id: book_id)
+  end
+
+  def sell_a_book
+    @shop.books_sold_count += 1
+  end
+
+  def set_shop
+    @shop = Shop.find(params[:id])
+  end
+
+  def shop_params
+    params.fetch(:shop, {}).permit(:title)
+  end
 end

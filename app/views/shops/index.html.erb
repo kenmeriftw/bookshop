@@ -12,6 +12,7 @@
   <tbody>
     <% @shops.each do |shop| %>
       <tr>
+        <td><%= shop.title %></td>
         <td><%= link_to 'Show', shop %></td>
         <td><%= link_to 'Edit', edit_shop_path(shop) %></td>
         <td><%= link_to 'Destroy', shop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -23,3 +24,5 @@
 <br>
 
 <%= link_to 'New Shop', new_shop_path %>
+
+<%= link_to 'shops#index via API', api_v1_shops_path %>

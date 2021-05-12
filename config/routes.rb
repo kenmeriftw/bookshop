@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root 'api/v1/shops#index'
+  resources :publishers
+  root 'shops#index'
 
   resources :shops
   resources :books
